@@ -17,19 +17,24 @@
 # under the License.
 #
 
-### Entries containing `***` need to be replaced with actual values.
 
 pkg.name: "hw/bsp/cjmcu-8223"
 pkg.type: bsp
-pkg.description: "Description of your package"
-pkg.author: "You <you@you.org>"
-pkg.homepage: "http://your-url.org/"
+pkg.description: "BSP for the CJMCU-8223 (nRF51822 QFAA, 16kB RAM / 256kB flash, LIS3DH accelerometer)"
+pkg.author: "snorrivalda"
+pkg.homepage: "https://github.com/snorrivalda/cjmcu-8223-bsp"
 pkg.keywords:
+    - nrf51
+    - cjmcu
+    - lis3dh
 
 pkg.cflags:
     - '-DNRF51'
+    - '-DNRF51822_XXAA'
 
 pkg.deps:
     - '@apache-mynewt-core/hw/mcu/nordic/nrf51xxx'
-    - '@apache-mynewt-core/kernel/os'
-    - '@apache-mynewt-core/libc/baselibc'
+    - '@apache-mynewt-core/libc'
+
+pkg.deps.UART_0:
+    - '@apache-mynewt-core/hw/drivers/uart/uart_hal'

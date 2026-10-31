@@ -29,45 +29,16 @@
 #  - FLASH_OFFSET contains the flash offset to download to
 #  - BOOT_LOADER is set if downloading a bootloader
 
-set -e
+. $CORE_PATH/hw/scripts/openocd.sh
 
-FILE_NAME=$BIN_BASENAME.elf
+CFG="-f $BSP_PATH/openocd.cfg"
 
-openocd_halt () {
-    openocd $CFG -c init -c "halt" -c shutdown
-    return $?
-}
+if [ "$MFG_IMAGE" ]; then
+    FLASH_OFFSET=0
+fi
 
-openocd_reset_run () {
-    openocd $CFG -c init -c "reset run" -c shutdown
-    return $?
-}
-
-openocd_load () {
-    if [ -z $FILE_NAME ]; then
-        echo "Missing filename"
-        exit 1
-    fi
-    if [ ! -f "$FILE_NAME" ]; then
-        # tries stripping current path for readability
-        FILE=${FILE_NAME##$(pwd)/}
-        echo "Cannot find file" $FILE
-        exit 1
-    fi
-    if [ -z $FLASH_OFFSET ]; then
-        echo "Missing flash offset"
-        exit 1
-    fi
-    echo "Command: flash write_image erase $FILE_NAME $FLASH_OFFSET"
-    #openocd $CFG -c "flash write_image erase $FILE_NAME $FLASH_OFFSET"
-    openocd $CFG -c "program $FILE_NAME verify reset"
-
-    if [ $? -ne 0 ]; then
-        exit 1
-    fi
-    return 0
-}
-
-CFG="--debug --file $BSP_PATH/openocd.cfg"
-
+# Picks the .elf.bin (bootloader) or .img (application) file and writes it
+# at FLASH_OFFSET, so applications land in the correct image slot.
+common_file_to_load
 openocd_load
+openocd_reset_run

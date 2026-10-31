@@ -20,7 +20,7 @@ OUTPUT_FORMAT ("elf32-littlearm", "elf32-bigarm", "elf32-littlearm")
 MEMORY
 {
   FLASH (rx) : ORIGIN = 0x00023800, LENGTH = 0x1b800
-  RAM (rwx) :  ORIGIN = 0x20000000, LENGTH = 0x8000
+  RAM (rwx) :  ORIGIN = 0x20000000, LENGTH = 0x4000
 }
 
 /* Linker script to place sections and symbol values. Should be used together
@@ -47,8 +47,8 @@ MEMORY
  *   __StackLimit
  *   __StackTop
  *   __stack
- *   __bssnz_start__
- *   __bssnz_end__
+ *   __noinit_start__
+ *   __noinit_end__
  */
 ENTRY(Reset_Handler_split)
 
@@ -83,6 +83,7 @@ SECTIONS
         *(SORT(.dtors.*))
         *(.dtors)
 
+INCLUDE "link_tables.ld.h"
         *(.rodata*)
 
         *(.eh_frame*)

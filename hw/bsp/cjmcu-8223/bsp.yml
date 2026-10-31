@@ -17,8 +17,9 @@
 # under the License.
 #
 
-### Entries containing `XXX` need to be replaced with actual values.
 
+bsp.name: "CJMCU-8223"
+bsp.maker: "CJMCU"
 bsp.arch: cortex_m0
 bsp.compiler: '@apache-mynewt-core/compiler/arm-none-eabi-m0'
 bsp.linkerscript:
@@ -27,9 +28,9 @@ bsp.linkerscript:
 bsp.linkerscript.BOOT_LOADER.OVERWRITE:
     - 'hw/bsp/cjmcu-8223/boot-cjmcu.ld'
     - '@apache-mynewt-core/hw/mcu/nordic/nrf51xxx/nrf51.ld'
-bsp.part2linkerscript: "hw/bsp/cjmcu-8223/split-cjmcu.ld"
-bsp.downloadscript: "hw/bsp/cjmcu-8223/cjmcu_download.sh"
-bsp.debugscript: "hw/bsp/cjmcu-8223/cjmcu_debug.sh"
+bsp.part2linkerscript: 'hw/bsp/cjmcu-8223/split-cjmcu.ld'
+bsp.downloadscript: 'hw/bsp/cjmcu-8223/cjmcu_download.sh'
+bsp.debugscript: 'hw/bsp/cjmcu-8223/cjmcu_debug.sh'
 
 bsp.flash_map:
     areas:

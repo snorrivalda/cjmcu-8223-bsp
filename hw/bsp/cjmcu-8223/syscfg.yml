@@ -17,16 +17,86 @@
 # under the License.
 #
 
+
 # Settings this BSP defines.
 syscfg.defs:
+    BSP_NRF51:
+        description: 'Set to indicate that BSP has NRF51'
+        value: 1
+
+    UART_0:
+        description: 'Whether to enable UART0'
+        value: 0
+    UART_0_PIN_TX:
+        description: 'TX pin for UART0'
+        value: 9
+    UART_0_PIN_RX:
+        description: 'RX pin for UART0'
+        value: 11
+    UART_0_PIN_RTS:
+        description: 'RTS pin for UART0'
+        value: -1
+    UART_0_PIN_CTS:
+        description: 'CTS pin for UART0'
+        value: -1
+
+    # The on-board LIS3DH is wired to TWI with SA0 pulled high (address 0x19).
+    I2C_0_PIN_SCL:
+        description: 'SCL pin for I2C_0 (LIS3DH)'
+        value: 7
+    I2C_0_PIN_SDA:
+        description: 'SDA pin for I2C_0 (LIS3DH)'
+        value: 6
+    I2C_0_FREQ_KHZ:
+        description: 'Frequency in kHz for I2C_0 bus'
+        value: 100
+
+    LIS3DH_I2C_ADDR:
+        description: 'I2C address of the on-board LIS3DH'
+        value: 0x19
+    LIS3DH_PIN_INT1:
+        description: 'nRF51 pin connected to LIS3DH INT1'
+        value: 1
+
     TIMER_0:
-        description: 'Timer 0'
-        value:  1
+        description: 'NRF51 Timer 0'
+        value: 1
+    TIMER_1:
+        description: 'NRF51 Timer 1'
+        value: 0
+    TIMER_2:
+        description: 'NRF51 Timer 2'
+        value: 0
+    TIMER_3:
+        description: 'NRF51 RTC0'
+        value: 0
+
+syscfg.defs.BLE_CONTROLLER:
+    TIMER_0:
+        value: 0
+    TIMER_3:
+        value: 1
 
 # Settings this BSP overrides.
 syscfg.vals:
+    MCU_TARGET: nRF51822
+    MCU_COMMON_STARTUP: 1
+
+    # The board has a 32.768 kHz crystal. The DC/DC converter is left off
+    # because the board is not known to have the required inductor fitted.
+    MCU_LFCLK_SOURCE: LFXO
+    MCU_DCDC_ENABLED: 0
+
+syscfg.vals.CONFIG_FCB:
     CONFIG_FCB_FLASH_AREA: FLASH_AREA_NFFS
+syscfg.vals.REBOOT_LOG:
     REBOOT_LOG_FLASH_AREA: FLASH_AREA_REBOOT_LOG
+syscfg.vals.NFFS:
     NFFS_FLASH_AREA: FLASH_AREA_NFFS
+syscfg.vals.COREDUMP:
     COREDUMP_FLASH_AREA: FLASH_AREA_IMAGE_1
-    XTAL_32768: 1
+
+syscfg.vals.BLE_CONTROLLER:
+    OS_CPUTIME_FREQ: 32768
+    OS_CPUTIME_TIMER_NUM: 3
+    BLE_LL_RFMGMT_ENABLE_TIME: 1500
