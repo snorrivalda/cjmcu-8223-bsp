@@ -111,8 +111,18 @@ newt target set pill app=@cjmcu-8223-bsp/apps/brewpill \
 ```
 
 Connect an SWD probe to the board (SWDIO, SWCLK, GND, VCC). The BSP uses a
-J-Link through OpenOCD. For an ST-Link or CMSIS-DAP probe, change the
-`interface` line in `hw/bsp/cjmcu-8223/openocd.cfg`. Then build and flash:
+J-Link through OpenOCD by default. For an ST-Link or CMSIS-DAP probe,
+switch to that probe's block in `hw/bsp/cjmcu-8223/openocd.cfg`.
+
+Boards that ship with demo firmware are often read-protected, and flashing
+then fails. Erase the chip once first:
+
+```sh
+openocd -f repos/cjmcu-8223-bsp/hw/bsp/cjmcu-8223/openocd.cfg \
+    -c init -c "reset halt" -c "nrf51 mass_erase" -c shutdown
+```
+
+Then build and flash:
 
 ```sh
 newt build boot && newt load boot           # once
