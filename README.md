@@ -110,9 +110,10 @@ newt target set pill app=@cjmcu-8223-bsp/apps/brewpill \
     bsp=@cjmcu-8223-bsp/hw/bsp/cjmcu-8223 build_profile=optimized
 ```
 
-Connect an SWD probe to the board (SWDIO, SWCLK, GND, VCC). The BSP uses a
-J-Link through OpenOCD by default. For an ST-Link or CMSIS-DAP probe,
-switch to that probe's block in `hw/bsp/cjmcu-8223/openocd.cfg`.
+Connect an SWD probe to the board (SWDIO, SWCLK, GND, VCC). The BSP uses an
+ST-Link V2 (or clone) through OpenOCD by default. For another probe, set
+`CJMCU_PROBE=jlink` or `CJMCU_PROBE=cmsis-dap` in the environment, e.g.
+`CJMCU_PROBE=jlink newt load pill`.
 
 Boards that ship with demo firmware are often read-protected, and flashing
 then fails. Erase the chip once first:
